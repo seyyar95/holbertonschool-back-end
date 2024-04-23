@@ -17,15 +17,15 @@ def export_to_json():
 
     user = json.loads(requests.get(user_url).text)
     tasks = json.loads(requests.get(tasks_url).text)
-
+    print("tasks", tasks)
     user_name = user["username"]
 
     " Creating necessary lists and dictionaries "
     tasks_list = []
-    tasks_dict = {}
     json_dict = {}
 
     for task in tasks:
+        tasks_dict = {}
         tasks_dict['task'] = task['title']
         tasks_dict['completed'] = task['completed']
         tasks_dict['username'] = user_name
