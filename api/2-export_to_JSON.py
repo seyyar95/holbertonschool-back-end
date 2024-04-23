@@ -1,11 +1,13 @@
 #!/usr/bin/python3
-""""""
+"""
+Python script to export data in the JSON fromat
+"""
 import requests
 import json
 from sys import argv
 
 
-def gather_user_information():
+def export_to_json():
     """
     Fethces and processes user and TODO list data for the provided ID.
     """
@@ -16,10 +18,25 @@ def gather_user_information():
     user = json.loads(requests.get(user_url).text)
     tasks = json.loads(requests.get(tasks_url).text)
 
-    employee_name = user["name"]
-    for task 
+    user_name = user["username"]
+
+    " Creating necessary lists and dictionaries "
+    tasks_list = []
+    tasks_dict = {}
+    json_dict = {}
+
+    for task in tasks:
+        tasks_dict['task'] = task['title']
+        tasks_dict['completed'] = task['completed']
+        tasks_dict['username'] = user_name
+        tasks_list.append(tasks_dict)
+
+    json_dict[Id] = tasks_list
+
+    with open(Id + '.json', "w") as js_file:
+        json.dump(json_dict, js_file)
 
 
 if __name__ == "__main__":
     if len(argv) == 2:
-        gather_user_information()
+        export_to_json()
