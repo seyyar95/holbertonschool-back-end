@@ -1,28 +1,39 @@
 #!/usr/bin/python3
-"""import"""
-import csv
+"""
+Python script that, exports data in the CSV format
+"""
+
+import json
 import requests
-import sys
+from sys import argv
+
+
+def export_to_csv():
+    """
+    Fethces and processes user and TODO list data for the provided ID.
+    """
+    Id = argv[1]
+    user_url = f'https://jsonplaceholder.typicode.com/users/{Id}'
+    tasks_url = f'https://jsonplaceholder.typicode.com/todos?userId={Id}'
+
+    user = json.loads(requests.get(user_url).text)
+    tasks = json.loads(requests.get(tasks_url).text)
+
+    employee_name = user['username']
+
+    string = ''
+    for task in tasks:
+        title = task['title']
+        status = task['completed']
+        string += f'"{argv[1]}","{employee_name}","{status}","{title}"\n'
+
+    filename = argv[1] + '.csv'
+
+    "Open and write csv file"
+    with open(filename, 'w') as csvfile:
+        csvfile.write(string)
+
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(f"missing employee id as argument")
-        sys.exit(1)
-
-    URL = "https://jsonplaceholder.typicode.com"
-    EMPLOYEE_ID = sys.argv[1]
-
-    EMPLOYEE_TODOS = requests.get(f"{URL}/users/{EMPLOYEE_ID}/todos",
-                                  params={"_expand": "user"})
-    data = EMPLOYEE_TODOS.json()
-
-    EMPLOYEE_NAME = data[0]["user"]["username"]
-    fileName = f"{EMPLOYEE_ID}.csv"
-
-    with open(fileName, "w", newline="") as file:
-        writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC)
-        for task in data:
-            writer.writerow(
-                [EMPLOYEE_ID, EMPLOYEE_NAME, str(task["completed"]),
-                 task["title"]]
-            )
+    if len(argv) == 2:
+        export_to_csv()
