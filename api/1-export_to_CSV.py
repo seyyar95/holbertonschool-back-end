@@ -25,7 +25,7 @@ def export_to_csv():
     for task in tasks:
         title = task['title']
         status = task['completed']
-        string += f"{argv[1]},{employee_name},{status},{title}\n"
+        string += f'"{argv[1]}","{employee_name}","{status}","{title}"\n'
 
     filename = argv[1] + '.csv'
 
@@ -36,4 +36,4 @@ def export_to_csv():
 
 if __name__ == "__main__":
     if len(argv) == 2:
-        gather_user_information()
+        export_to_csv()
