@@ -2,8 +2,8 @@
 """
 Python script to export data in the JSON fromat
 """
-import requests
 import json
+import requests
 from sys import argv
 
 
