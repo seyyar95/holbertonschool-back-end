@@ -2,10 +2,10 @@
 """
 Python script that, exports data in the CSV format
 """
-import requests
+
 import json
+import requests
 from sys import argv
-import csv
 
 
 def export_to_csv():
